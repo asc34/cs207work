@@ -1,0 +1,41 @@
+def make_withdraw2(balance):
+    
+    """Return a withdraw function that draws down balance with each call."""
+    def withdraw(amount):#you are ok if you use balance as a read-only property
+    
+        if amount > balance:
+            return 'Insufficient funds'
+        balance=balance-amount
+        return balance-amount
+    return withdraw
+
+wdfrom20=make_withdraw2(20)
+wdfrom20(5)
+wdfrom20(5)
+
+"""Question 1: Error: variable is referenced before assignment. A variable is considered
+global if it is only being read within a function. However, it the variable is being
+written to (balance=balance-amount), then the variable is considered
+local, which is invalid."""
+
+def make_withdraw2(balance):
+    
+    """Return a withdraw function that draws down balance with each call."""
+    def withdraw(amount):#you are ok if you use balance as a read-only property
+        nonlocal balance
+        if amount > balance:
+            return 'Insufficient funds'
+        
+        return balance-amount
+    return withdraw
+
+wdfrom20=make_withdraw2(20)
+wdfrom20(5)
+wdfrom20(7)
+
+"""Question 2: With the nonlocal balance statement, python looks to
+the enclosing function make_withdraw to identify 'balance' as a variable.
+Now, because 'balance' is not defined as local, it is possible to 
+read and write to the variable. Specifically, f1:make_withdraw shows 
+that the return value changes from NONE in the original function to the 
+value of balance-amount after declaring nonlocal balance."""
